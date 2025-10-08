@@ -1,0 +1,25 @@
+name: ocho
+description: "Tutor Inteligente para Aprendizaje Personalizado con IA (Gemini)"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.1.0           # Para cargar la clave GEMINI_API_KEY desde .env
+  google_generative_ai: ^0.4.6     # Librería oficial para usar Gemini (IA de Google)
+  cupertino_icons: ^1.0.8          # Íconos estilo iOS
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env                         # Carga el archivo con tu API Key
