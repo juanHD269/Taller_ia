@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/gemini_service.dart';
+import '../services/supabase_service.dart';
 
 class TutorScreen extends StatefulWidget {
   const TutorScreen({super.key});
@@ -44,6 +45,19 @@ Pregunta del estudiante: $q
 ''';
       final a = await GeminiService.instance.ask(prompt);
       _pushMessage(a, false);
+      // Subir consulta y respuesta como .txt a Storage
+      try {
+        await SupabaseService.instance.uploadQueryLog(
+          type: 'tutor',
+          prompt: q,
+          response: a,
+        );
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('No se pudo guardar en Storage: $e')));
+        }
+      }
     } catch (e) {
       _pushMessage('⚠️ Error: $e', false);
     } finally {

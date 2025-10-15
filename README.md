@@ -1,16 +1,42 @@
-# ocho
+# Ocho – Tutor IA con Supabase
 
-A new Flutter project.
+Este proyecto Flutter integra:
+- Gemini (Google Generative AI) para tutor/sumario.
+- Supabase para Login (email/contraseña) y Storage (archivos).
 
-## Getting Started
+## Configuración
 
-This project is a starting point for a Flutter application.
+1) Variables de entorno (`.env`):
 
-A few resources to get you started if this is your first Flutter project:
+```
+GEMINI_API_KEY=tu_clave_gemini
+SUPABASE_URL=https://TU_PROJECT_ID.supabase.co
+SUPABASE_ANON_KEY=tu_anon_key
+SUPABASE_BUCKET=uploads
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2) Supabase – Autenticación:
+- Crea un proyecto en Supabase y copia `URL` y `anon key`.
+- En Auth, decide si el registro requiere confirmación por email. Si está desactivada, la sesión se abre tras registrarse.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3) Supabase – Storage:
+- Crea un bucket llamado `uploads` (o el nombre que uses en `SUPABASE_BUCKET`).
+- Ajusta las políticas de acceso según tu necesidad (público/privado). Para mostrar URLs públicas, configura el bucket como público o usa políticas que permitan lectura.
+
+## Ejecutar
+
+```
+flutter pub get
+flutter run -d chrome   # o -d windows / -d android / -d ios
+```
+
+## Uso
+- Al abrir la app, si no hay sesión se muestra la pantalla de Login.
+- Tras iniciar sesión, accede desde Home a:
+  - Tutor (chat) y Resumidor (Gemini).
+  
+Nota: Las consultas y respuestas se guardan automáticamente en Supabase Storage (archivos .txt) en segundo plano. La opción visible "Storage" fue removida del Home.
+
+## Notas
+- Si faltan `SUPABASE_URL` o `SUPABASE_ANON_KEY`, la app muestra un aviso y desactiva el login.
+- Para producción, revisa las políticas de Storage y reglas de Auth.

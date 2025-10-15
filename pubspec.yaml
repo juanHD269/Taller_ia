@@ -13,6 +13,8 @@ dependencies:
   flutter_dotenv: ^5.1.0           # Para cargar la clave GEMINI_API_KEY desde .env
   google_generative_ai: ^0.4.6     # Librería oficial para usar Gemini (IA de Google)
   cupertino_icons: ^1.0.8          # Íconos estilo iOS
+  supabase_flutter: ^2.10.3
+  file_picker: ^10.3.3
 
 dev_dependencies:
   flutter_test:

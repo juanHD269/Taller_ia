@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/gemini_service.dart';
+import '../services/supabase_service.dart';
 
 class SummarizerScreen extends StatefulWidget {
   const SummarizerScreen({super.key});
@@ -24,6 +25,21 @@ class _SummarizerScreenState extends State<SummarizerScreen> {
     try {
       final s = await GeminiService.instance.summarize(text, level: _level);
       setState(() => _output = s);
+      // Subir consulta y resultado como .txt a Storage
+      try {
+        await SupabaseService.instance.uploadQueryLog(
+          type: 'summarizer',
+          prompt: text,
+          response: s,
+          level: _level,
+        );
+      } catch (e) {
+        // No bloqueamos la UI si falla la subida; avisamos.
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('No se pudo guardar en Storage: $e')));
+        }
+      }
     } catch (e) {
       setState(() => _output = '⚠️ Error: $e');
     } finally {
